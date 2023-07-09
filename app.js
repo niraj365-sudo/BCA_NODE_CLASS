@@ -9,7 +9,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 const { ConnectToDatabase } = require('./model');
 const authCheck = require('./middleware/auth-middleware');
-
+const Handlebars = require("handlebars")
 var app = express();
 
 // view engine setup
@@ -21,7 +21,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 // app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
+Handlebars.registerHelper('turnery', function (value,iftrue,iffalse) {
+  return value?iftrue:iffalse;
+});
 app.use(session({
   secret: 'mySecret',
   resave:false,

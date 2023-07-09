@@ -5,12 +5,16 @@ const schemaValidation = (schema,renderPage)=>{
             next(Error("Request body is required"));
         }
             
-        schema.validate(req.body,{abortEarly:true})
+        schema.validate(req.body,{abortEarly:false})
             .then((result)=>{
                 req.body = result;
                 next();
             }).catch(error=>{
-                res.render(renderPage,{errorMessage:error.message})
+                const errors = {}
+                error.inner.forEach(err=>{
+                  errors[err.path] = err.message;
+                })
+                res.render(renderPage,{errorMessage:error.message,errors})
             })
     }
 }
