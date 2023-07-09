@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
-const {User} = require("../model")
+const {User} = require("../model");
+const schemaValidation = require('../middleware/validation-middleware');
+const { registrationSchema } = require('../schemas/auth-schemas');
 
 const user = {username: "niraj", password:"password"}
 
@@ -14,10 +16,10 @@ router.get('/register', (req, res)=>{
 })
 
 router.get('/login', function(req, res, next) {
-  res.render('login', { title: 'Login' });
+  res.render('login', { title: 'Login',...req.query });
 });
 
-router.post('/register', async (req, res)=>{
+router.post('/register',schemaValidation(registrationSchema,"register"), async (req, res)=>{
   console.log(req.body);
   const{uname, email, password}=req.body
   await User.create(req.body)
@@ -50,7 +52,7 @@ router.post('/login', async(req, res, next)=>{
 })
 
 router.get('/home', (req, res, next)=>{
-  res.render("home", {username: user.username})
+  res.render("home", {username: req.session.user})
 })
 
 module.exports = router;

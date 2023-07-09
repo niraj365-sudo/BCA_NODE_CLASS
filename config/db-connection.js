@@ -6,9 +6,9 @@ const Sequelize = require("sequelize");
   dialect: /* one of 'mysql' | 'postgres' | 'sqlite' | 'mariadb' | 'mssql' | 'db2' | 'snowflake' | 'oracle' 
 });
 */
-const sequelize = new Sequelize("node","root","",{
+const sequelize = new Sequelize("node","postgres","postgres",{
     host:"localhost",
-    dialect:"mysql"
+    dialect:"postgres"
 });
 
 module.exports = sequelize;

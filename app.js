@@ -8,6 +8,7 @@ const sequelize = require("./config/db-connection")
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 const { ConnectToDatabase } = require('./model');
+const authCheck = require('./middleware/auth-middleware');
 
 var app = express();
 
@@ -45,7 +46,7 @@ ConnectToDatabase()
 // })
 
 
-
+app.use(authCheck())
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
